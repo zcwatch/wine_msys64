@@ -25,11 +25,12 @@ RUN dpkg --add-architecture i386; \
 
 
 ARG WINE_VERSION=2.4.0-3~xenial
-RUN build_deps="curl ca-certificates gnupg2"; \
+RUN build_deps="curl ca-certificates gnupg2 wget"; \
     apt-get update; \
     DEBIAN_FRONTEND=noninteractive \
     apt-get install -y --no-install-recommends ${build_deps}; \
-    apt-key add <(curl -L https://dl.winehq.org/wine-builds/Release.key); \
+    wget -nc https://dl.winehq.org/wine-builds/winehq.key; \
+    apt-key add winehq.key; \
     echo 'deb http://dl.winehq.org/wine-builds/ubuntu/ xenial main' > /etc/apt/sources.list.d/wine.list; \
     dpkg --add-architecture i386; \
     apt-get update; \
